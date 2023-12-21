@@ -1,4 +1,4 @@
-package com.plusweek.plusweek.exception;
+package com.plusweek.exception;
 
 // 비지니스 예외 추상화
 public class CustomException extends RuntimeException{

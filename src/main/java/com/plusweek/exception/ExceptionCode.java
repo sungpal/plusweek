@@ -1,4 +1,4 @@
-package com.plusweek.plusweek.exception;
+package com.plusweek.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
