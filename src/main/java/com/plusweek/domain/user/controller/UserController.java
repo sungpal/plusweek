@@ -22,7 +22,7 @@ public class UserController {
         String nickname = userSignUpRequestDto.getNickname();
 
 
-//        userService.signupUser(userSignUpRequestDto);
+          userService.signupUser(userSignUpRequestDto);
 //        emailService.sendEmail(userSignUpRequestDto);
 
         return ResponseEntity.status(201).body("회원가입 완료");
