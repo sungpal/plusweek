@@ -5,25 +5,27 @@ import com.plusweek.domain.post.dto.PostResponseDto;
 import com.plusweek.domain.post.entity.Post;
 import com.plusweek.domain.post.repository.PostRepository;
 import com.plusweek.domain.user.entity.User;
-import com.plusweek.security.UserDetailsImpl;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
+    public class PostService {
 
     private final PostRepository postRepository;
 
-    public List<PostResponseDto> getPosts(String title, String nickname, LocalDateTime createdAt) {
-        List<Post> posts = postRepository.findByTitleAndNicknameOrderByCreatedAtDesc(title, nickname, createdAt);
-        return posts.stream().map(PostResponseDto::new).toList();
+    public List<PostResponseDto> getPosts() {
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
 
+        return posts.stream()
+                .map(post -> new PostResponseDto(post.getUser().getNickname(), post.getCreatedAt(), post.getTitle()))
+                .collect(Collectors.toList());
     }
+
 
     public void addPost(PostRequestDto requestDto, User user) {
 
@@ -37,6 +39,7 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
+    @Transactional
     public void updatePost(Long id, PostRequestDto requestDto, User user) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
         if (!post.getUser().getNickname().equals(user.getNickname())) {
@@ -45,6 +48,7 @@ public class PostService {
         post.update(requestDto);
     }
 
+    @Transactional
     public void deletePost(Long id, User user) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
         if (!post.getUser().getNickname().equals(user.getNickname())) {

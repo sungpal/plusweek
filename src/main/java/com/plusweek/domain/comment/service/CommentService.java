@@ -7,6 +7,7 @@ import com.plusweek.domain.comment.repository.CommentRepository;
 import com.plusweek.domain.post.entity.Post;
 import com.plusweek.domain.post.repository.PostRepository;
 import com.plusweek.domain.user.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
 
+    @Transactional
     public CommentResponseDto updateComment(Long postId, Long commentId, CommentRequestDto requestDto, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("존재하지 않는 댓글입니다"));
@@ -34,7 +36,7 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
 
-
+    @Transactional
     public void deleteComment(Long postId, Long commentId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("존재하지 않는 댓글입니다"));
