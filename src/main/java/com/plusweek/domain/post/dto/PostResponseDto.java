@@ -1,12 +1,16 @@
 package com.plusweek.domain.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.plusweek.domain.comment.dto.CommentResponseDto;
+import com.plusweek.domain.comment.entity.Comment;
 import com.plusweek.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -22,6 +26,7 @@ public class PostResponseDto {
 
     private String title;
     private String content;
+    private List<CommentResponseDto> comments;
 
 
     public PostResponseDto(Post post) {
@@ -31,6 +36,10 @@ public class PostResponseDto {
         this.nickName = post.getUser().getNickname();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
+        this.comments = post.getComments()
+                .stream()
+                .map(CommentResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
