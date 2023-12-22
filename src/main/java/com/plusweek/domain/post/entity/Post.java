@@ -43,7 +43,7 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
     public Post(PostRequestDto postRequestDto, User user) {
@@ -57,10 +57,5 @@ public class Post {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
     }
-
-//    public void update(PostRequestDto postRequestDto) {
-//        this.title = postRequestDto.getTitle();
-//        this.content = postRequestDto.getContent();
-//    }
 }
 
