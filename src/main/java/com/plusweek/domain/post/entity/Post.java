@@ -41,6 +41,7 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime modifiedAt;
 
+
     public Post(PostRequestDto postRequestDto, User user) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();

@@ -1,14 +1,15 @@
 package com.plusweek.domain.post.controller;
 
+import com.plusweek.domain.post.dto.PostRequestDto;
 import com.plusweek.domain.post.dto.PostResponseDto;
 import com.plusweek.domain.post.repository.PostRepository;
 import com.plusweek.domain.post.service.PostService;
+import com.plusweek.security.UserDetailsImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,12 @@ public class PostController {
     public ResponseEntity<List<PostResponseDto>> getPosts(String title, String nickname, LocalDateTime createdAt) {
         List<PostResponseDto> postResponseDto = postService.getPosts(title, nickname,createdAt);
         return ResponseEntity.status(200).body(postResponseDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> addPost(@Valid @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        postService.addPost(requestDto, userDetails.getUser());
+        return ResponseEntity.status(200).body("게시물이 등록되었습니다");
     }
 
 }
