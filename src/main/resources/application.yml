@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: wsh1322
+    password: ${EMAIL_PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          trust: smtp.naver.com
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/plusweek
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1322
+
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+
+jwt:
+  secret:
+    key: ${JwtSecretKey}

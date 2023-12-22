@@ -1,4 +1,4 @@
-package com.plusweek.plusweek;
+package com.plusweek;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
