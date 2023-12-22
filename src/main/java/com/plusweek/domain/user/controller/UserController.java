@@ -18,10 +18,6 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signupUser(@Valid @RequestBody UserSignUpRequestDto userSignUpRequestDto) throws MessagingException {
-        String password = userSignUpRequestDto.getPassword();
-        String nickname = userSignUpRequestDto.getNickname();
-
-
           userService.signupUser(userSignUpRequestDto);
 //        emailService.sendEmail(userSignUpRequestDto);
 
