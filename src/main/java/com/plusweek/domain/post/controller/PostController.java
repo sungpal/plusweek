@@ -21,11 +21,19 @@ public class PostController {
 
     private final PostRepository postRepository;
     private final PostService postService;
+
     @GetMapping
     public ResponseEntity<List<PostResponseDto>> getPosts(String title, String nickname, LocalDateTime createdAt) {
-        List<PostResponseDto> postResponseDto = postService.getPosts(title, nickname,createdAt);
+        List<PostResponseDto> postResponseDto = postService.getPosts(title, nickname, createdAt);
         return ResponseEntity.status(200).body(postResponseDto);
     }
+
+    @GetMapping("/id")
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id) {
+        PostResponseDto postResponseDto = postService.getPost(id);
+        return ResponseEntity.status(200).body(postResponseDto);
+    }
+
 
     @PostMapping
     public ResponseEntity<String> addPost(@Valid @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -33,4 +41,9 @@ public class PostController {
         return ResponseEntity.status(200).body("게시물이 등록되었습니다");
     }
 
+    @PatchMapping("/id")
+    public ResponseEntity<String> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        postService.updatePost(id, requestDto, userDetails.getUser());
+        return ResponseEntity.status(200).body("게시글이 수정되었습니다");
+    }
 }

@@ -32,4 +32,16 @@ public class PostService {
     }
 
 
+    public PostResponseDto getPost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
+        return new PostResponseDto(post);
+    }
+
+    public void updatePost(Long id, PostRequestDto requestDto, User user) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
+        if (!post.getUser().getNickname().equals(user.getNickname())) {
+            throw new IllegalArgumentException("게시글을 수정할 권한이 없습니다");
+        }
+        post.update(requestDto);
+    }
 }

@@ -48,6 +48,11 @@ public class Post {
         this.user = user;
     }
 
+    public void update(PostRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+    }
+
 //    public void update(PostRequestDto postRequestDto) {
 //        this.title = postRequestDto.getTitle();
 //        this.content = postRequestDto.getContent();
