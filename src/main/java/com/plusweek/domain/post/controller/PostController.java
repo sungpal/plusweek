@@ -46,4 +46,11 @@ public class PostController {
         postService.updatePost(id, requestDto, userDetails.getUser());
         return ResponseEntity.status(200).body("게시글이 수정되었습니다");
     }
+
+    @DeleteMapping("/id")
+    public ResponseEntity<String> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        postService.deletePost(id, userDetails.getUser());
+        return ResponseEntity.status(200).body("게시글이 삭제되었습니다");
+    }
 }

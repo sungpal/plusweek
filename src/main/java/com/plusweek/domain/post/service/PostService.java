@@ -44,4 +44,12 @@ public class PostService {
         }
         post.update(requestDto);
     }
+
+    public void deletePost(Long id, User user) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
+        if (!post.getUser().getNickname().equals(user.getNickname())) {
+            throw new IllegalArgumentException("게시글을 삭제할 권한이 없습니다");
+        }
+        postRepository.delete(post);
+    }
 }
