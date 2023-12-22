@@ -23,4 +23,24 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
 
+    public CommentResponseDto updateComment(Long postId, Long commentId, CommentRequestDto requestDto, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("존재하지 않는 댓글입니다"));
+        if (!comment.getUser().getId().equals(user.getId())) {
+            throw new NullPointerException("댓글을 수정할 권한이 없습니다");
+        }
+        comment.setContent(requestDto.getContent());
+
+        return new CommentResponseDto(comment);
+    }
+
+
+    public void deleteComment(Long postId, Long commentId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("존재하지 않는 게시글입니다"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("존재하지 않는 댓글입니다"));
+        if (!comment.getUser().getId().equals(user.getId())) {
+            throw new NullPointerException("댓글을 삭제할 권한이 없습니다");
+        }
+        commentRepository.delete(comment);
+    }
 }
